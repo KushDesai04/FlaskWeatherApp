@@ -8,10 +8,12 @@ Repo: https://github.com/KushDesai04/13DTP-Project
 '''
 
 
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect, abort, Response
 from config import Config
 # from forms import FilterForm
 import json
+import urllib
+import requests
 
 
 app = Flask(__name__)
@@ -32,29 +34,52 @@ def page_not_found(error):
 
 # Home page
 @app.route('/')
-def home(city='christchurch'):
+def home():
+    return render_template('home.html')
+
+
+# Home page
+@app.route('/<string:city>')
+def forecast(city):
     return render_template('home.html', city = city)
 
-@app.route('/get_city', methods=['POST'])
-def get_city():
-    city = json.loads(request.get_data())
-    home(str(city))
 
-@app.route('/get_data', methods=['POST'])
-def get_data():
-    data = json.loads(request.get_data())
+@app.route('/forecast', methods=['GET'])
+def get_weather():
+    city = request.args.get('city')
+    if city is None:
+        city = 'Christchurch'
+
+    url = "https://weather-by-api-ninjas.p.rapidapi.com/v1/weather"
+
+    querystring = {"city": city}
+
+    headers = {
+        "X-RapidAPI-Key": "48b40acd60mshe95879762d1b62ep1515b9jsn0c09828c305d",
+        "X-RapidAPI-Host": "weather-by-api-ninjas.p.rapidapi.com"
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+
+    data = (json.loads(response.text))
     print(data)
-    return 'a'
-# @app.route('/like', methods=['POST'])
-# def like():
-#     degree = json.loads(request.get_data())
-#     deg = models.Degree.query.filter_by(name=degree['degree']).first()
-#     deg.likes += 1 if degree['positive'] else - 1
-#     db.session.merge(deg)
-#     db.session.commit()
-#     return str(deg.likes)
 
+    return render_template('home.html', title='Weather App', data=data, city=city)
 
 
 if __name__ == '__main__':
     app.run(debug=app.config['DEBUG'])
+
+
+
+'''
+params = {
+    #     'X-RapidAPI-Key': '48b40acd60mshe95879762d1b62ep1515b9jsn0c09828c305d',
+    #     'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
+    # }
+    # r = requests.get(
+    # 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=christchurch',
+    # params=params)
+    # data = r.text
+    # print(json.loads(data))
+    # '''

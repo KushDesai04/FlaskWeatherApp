@@ -11,14 +11,18 @@
 
 <body>
     <div class="container">
-
+        <form action="/forecast">
+            <label for="cityname">City: </label>
+            <input type="text" id="city" name="city">
+            <input type="submit" value="Submit">
+          </form>
         <div class="upper-data">
             <img src="../static/images/day.jpg" *ngIf="14 > 15">
             <img src="../static/images/night.jpg" *ngIf="14 <= 15">
 
             <div class="weather-data">
                 <div class="location">{{ city }}</div>
-                <div class="temperature">17°C</div>
+                <div class="temperature">{{ data['temp'] }}°C</div>
             </div>
         </div>
 
@@ -33,7 +37,7 @@
                         <span>min</span>
                     </div>
                     <div class="info-block-value">
-                        14degC
+                        {{ data['min_temp'] }}°C
                     </div>
                 </div>
 
@@ -43,7 +47,7 @@
                         <span>max</span>
                     </div>
                     <div class="info-block-value">
-                        22degC
+                        {{ data['max_temp'] }}°C
                     </div>
                 </div>
 
@@ -53,7 +57,7 @@
                         <span>humidity</span>
                     </div>
                     <div class="info-block-value">
-                        77%
+                        {{ data['humidity'] }}°C
                     </div>
                 </div>
 
@@ -63,36 +67,12 @@
                         <span>wind</span>
                     </div>
                     <div class="info-block-value">
-                        10 km/h 
+                        {{ data['wind_speed'] }}°C m/s 
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <script>
-        console.log('Running')
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': '48b40acd60mshe95879762d1b62ep1515b9jsn0c09828c305d',
-                'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
-            }
-        };
-
-        fetch('https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city={{ city }}', options)
-            .then(response => response.json())
-            .then(data => fetch("/get_data", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data)
-                }))
-            .catch(err => console.error(err))
-
-
-    </script>
 </body>
 
 </html>

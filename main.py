@@ -39,10 +39,6 @@ def home():
 
 
 # Home page
-@app.route('/<string:city>')
-def forecast(city):
-    return render_template('home.html', city = city)
-
 
 @app.route('/forecast', methods=['GET'])
 def get_weather():

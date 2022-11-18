@@ -25,14 +25,50 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .container {
   width: 400px;
-  height: 80vh;
+  height: 85vh;
   background-color: var(--blue-2);
   border-radius: 20px;
   box-shadow: 10px 10px 10px var(--shadow-dark);
+}
+
+.search {
+  margin-bottom: 1em;
+  text-align: center;
+
+}
+
+.search input[type=text]{
+  /* border-radius: 20px;
+  height: 5vh;
+  border: none;
+  text-align: center; */
+  background-color: var(--shadow-dark);
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  padding: 1em;
+  color: var(--grey-1);
+  font-size: 0.8em;
+  text-align: center;
+  position: relative;
+}
+
+.search button[type=submit]{
+  height: 4vh;
+  width: 4vh;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #3C429E;
+}
+
+.search button:hover{
+  color: red;
 }
 
 .upper-data {

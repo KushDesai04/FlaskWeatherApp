@@ -7,18 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
+    <form class="search" action="/forecast">
+        <input type="text" id="city" name="city" placeholder="Search City" required>
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+
+    {% if data %}
     <div class="container">
-        <form action="/forecast">
-            <label for="cityname">City: </label>
-            <input type="text" id="city" name="city">
-            <input type="submit" value="Submit">
-          </form>
         <div class="upper-data">
-            <img src="../static/images/day.jpg" *ngIf="14 > 15">
-            <img src="../static/images/night.jpg" *ngIf="14 <= 15">
+            {% if data['temp'] > 15 %}
+            <img src="../static/images/day.jpg">
+            {% else %}
+            <img src="../static/images/night.jpg">
+            {% endif %}
 
             <div class="weather-data">
                 <div class="location">{{ city }}</div>
@@ -73,6 +79,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </body>
 
 </html>
